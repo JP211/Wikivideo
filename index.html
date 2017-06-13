@@ -13,12 +13,13 @@
   <div class='container'>
     <center><br>
     <img width='260px' height='40px' src='assets/images/Wikivideo.png'>
+    <p>The Free Video Encyclopedia</p>
     <br><br>
-    <!--PLACEHOLDER FOR TOP VIDS--><img width='250px' height='250px' src="assets/images/Wikilogo.png"> 
+    <div id='hVid'><iframe width="854" height="480" src="https://www.youtube.com/embed/hY7m5jjJ9mM" frameborder="0" allowfullscreen></iframe></div>
     <form>
       <br>
-      <input id='searchTerm' type='text'>
-      <a href='pageTwo.html' target='_blank' id='searchButton' class='btn btn-primary'>Search</a>
+      <input id='searchTerm' type='text' size='50' height='40'>
+      <button type='submit' id='searchButton' class='btn btn-primary'>Search</button>
     </form>
     </center>
 
@@ -32,22 +33,26 @@
       storageBucket: "fir-click-counter-7cdb9.appspot.com"
       };
 
-      firebase.initializeApp(config);
+    firebase.initializeApp(config);
 
-      var database = firebase.database();
+    var database = firebase.database();
 
-      var searchTerm;
+    var searchTerm;
 
-      $('#searchButton').on('click', function(event) {
+    $(document).on('submit', function(event) {
 
-
-      	searchTerm = $('#searchTerm').val().trim();
-
-      	database.ref().set({
-      		searchTerm: searchTerm
-      	});
-
+      searchTerm = $('#searchTerm').val().trim();
+      
+      database.ref().set({
+      	searchTerm: searchTerm
       });
+
+      if ($('#searchTerm').val().trim()) {
+        window.open('pageTwo.html','_blank');
+      } 
+      
+
+    });
 
   </script>
 </body>
