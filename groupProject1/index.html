@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>WIKIVIDEO</title>
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/reset.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class='container'>
+    <center><br>
+    <img width='260px' height='40px' src='assets/images/Wikivideo.png'>
+    <p>The Free Video Encyclopedia</p>
+    <br><br>
+    <div id='hVid'><iframe width="854" height="480" src="https://www.youtube.com/embed/hY7m5jjJ9mM" frameborder="0" allowfullscreen></iframe></div>
+    <form>
+      <br>
+      <input placeholder='Search Wikivideo' id='searchTerm' type='text' size='50' height='40'>
+      <button type='submit' id='searchButton' class='btn btn-primary'><span class='glyphicon glyphicon-search'></span></button>
+    </form>
+    </center>
+
+  </div> <!--container close-->
+
+  <script>
+    var config = {
+      apiKey: "AIzaSyAJS4YQWU5DmESeYueG1qH1NGkjv3DncEY",
+      authDomain: "fir-click-counter-7cdb9.firebaseapp.com",
+      databaseURL: "https://wikivideo-90f6d.firebaseio.com/",
+      storageBucket: "fir-click-counter-7cdb9.appspot.com"
+      };
+
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+
+    var searchTerm;
+
+    $(document).on('submit', function(event) {
+
+      searchTerm = $('#searchTerm').val().trim();
+      
+      database.ref().set({
+      	searchTerm: searchTerm
+      });
+
+      if ($('#searchTerm').val().trim()) {
+        window.open('pageTwo.html','_blank');
+      } 
+      
+    });
+
+  </script>
+</body>
+
+</html>
+

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>WIKIVIDEO</title>
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/reset.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' type='text/css' href='assets/style.css'>
+</head>
+
+<body>
+  <div class='container'>
+    <h2 id='articleHead'></h2>
+    <hr><br>
+    <div id='vidArray'></div>
+    <div id='sideVids'></div>
+    <br>
+    <p id='articleBody'></p>
+
+  </div> <!--container close-->
+
+  <script>
+    var config = {
+      apiKey: "AIzaSyAJS4YQWU5DmESeYueG1qH1NGkjv3DncEY",
+      authDomain: "fir-click-counter-7cdb9.firebaseapp.com",
+      databaseURL: "https://wikivideo-90f6d.firebaseio.com/",
+      storageBucket: "fir-click-counter-7cdb9.appspot.com"
+      };
+
+      firebase.initializeApp(config);
+
+      var database = firebase.database();
+
+      var newSearchTerm;
+
+      $(document).ready(function () { 
+
+      database.ref('/searchTerm').on('value', function(snapshot) {
+        newSearchTerm = snapshot.val();
+
+      function getResults(searchTerm) {
+    $.getJSON("https://www.googleapis.com/youtube/v3/search",
+      {
+        "part": "snippet",
+        "key": "AIzaSyCcaq0-kwYgkRs1yiz6gorx8i_4wydT3F0",
+        "q": searchTerm,
+        "maxResults": 5
+      },
+      function (data) {
+        console.log(data);
+        if (data.pageInfo.totalResults == 0) {
+          alert("No results!");
+        }
+        // If no results, empty the list
+        displayResults(data.items);
+      }
+    );
+  }
+
+  //Display results in ul
+  function displayResults(videos) {
+    var html = "";
+    var sideHtml = "";
+    $.each(videos, function (index, video) {
+      // Append results li to ul
+      console.log(video.snippet.title);
+      console.log(video.snippet.thumbnails.high.url);
+      html = "<p>" + video.snippet.title + '<p><iframe width="800" height="400" src="https://www.youtube.com/embed/' + video.id.videoId + '" frameborder="0" allowfullscreen></iframe></p>';
+      sideHtml = sideHtml + "<p>" +
+        "<a target='_blank' href='https://www.youtube.com/watch?v=" + video.id.videoId + "'><img height='60' width='120' src='" +  video.snippet.thumbnails.high.url + "'/></a><p>" + video.snippet.title + '</p>';
+
+        console.log(videos);
+    });
+    $("#vidArray").html(html);
+    $("#sideVids").html(sideHtml);
+  }
+
+  //Use search term
+      $(document).ready(function () {
+        getResults(newSearchTerm);
+      });
+  
+  });
+
+      });
+      
+  </script>
+</body>
+
+</html>
