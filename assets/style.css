@@ -1,0 +1,16 @@
+#sideVids {
+
+	position: relative;
+	left: 830px;
+	bottom: 415px;
+}
+
+#articleBody {
+	position: relative;
+	bottom: 540px;
+	width: 790px;
+}
+
+#sideVidTitle {
+	max-width: 400px;
+}
