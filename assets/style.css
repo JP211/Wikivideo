@@ -1,16 +1,55 @@
+body {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(#ffffff, grey);
+}
+html {
+	height:100%;
+}
+
+#wrapper {
+	
+        height: 100%;
+        margin: 0;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+
+}
+
 #sideVids {
 
-	position: relative;
+	/*position: relative;
 	left: 830px;
-	bottom: 415px;
+	bottom: 415px;*/
+	display: inline-block;
+	position: absolute;
+	left: 980px;
+	top: 156px;
 }
 
 #articleBody {
-	position: relative;
-	bottom: 540px;
 	width: 790px;
 }
 
 #sideVidTitle {
-	max-width: 400px;
+	max-width: 250px;
+	min-width: 250px;
 }
+
+#searchForm {
+	clear: both;
+	display: inline;
+	float: right;
+}
+
+#articleHead {
+	display: inline;
+	font-size: 32px;
+}
+
+

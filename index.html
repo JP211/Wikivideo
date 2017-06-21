@@ -7,6 +7,7 @@
   <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/reset.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' type='text/css' href='assets/style.css'>
 </head>
 
 <body>
@@ -15,12 +16,14 @@
     <img width='260px' height='40px' src='assets/images/Wikivideo.png'>
     <p>The Free Video Encyclopedia</p>
     <br><br>
-    <div id='hVid'><iframe width="854" height="480" src="https://www.youtube.com/embed/hY7m5jjJ9mM" frameborder="0" allowfullscreen></iframe></div>
+    <div id='hVid'></div>
     <form>
       <br>
-      <input id='searchTerm' type='text' size='50' height='40'>
-      <button type='submit' id='searchButton' class='btn btn-primary'>Search</button>
+      <input placeholder='Search' id='searchTerm' type='text' size='50' height='40'>
+      <button type='submit' id='searchButton' class='btn btn-primary'><span class='glyphicon glyphicon-search'></span></button>
+      <button id='random' type="button" class="btn btn-primary"><span class="glyphicon glyphicon-question-sign"></span></button>
     </form>
+    <p id='userInputPrompt'></p>
     </center>
 
   </div> <!--container close-->
@@ -49,10 +52,63 @@
 
       if ($('#searchTerm').val().trim()) {
         window.open('pageTwo.html','_blank');
-      } 
+      } else {
+        event.preventDefault();
+        $('#userInputPrompt').html('Enter a term to get started!')
+      }
       
 
     });
+
+    var maxVideos = 1;
+   $(document).ready(function(){
+  $.get(
+    "https://www.googleapis.com/youtube/v3/videos",{
+      part: 'snippet',
+      chart: 'mostPopular',
+      kind: 'youtube#videoListResponse',
+      maxResults: maxVideos,
+      regionCode: 'US',
+      type: "video",
+      videoEmbeddable: true,
+      videoSyndicated: true,
+      safeSearch: 'strict',
+      key: 'AIzaSyBkK8PEuhSfyz05gnUWhwOuE5cqWV5Oa3A'},
+
+      function(data){
+        console.log("data->" +JSON.stringify(data, null, 3));
+        var output;
+        $.each(data.items, function(i, item){
+          console.log(item);
+          videTitle = item.snippet.title;
+                description = item.snippet.description;
+                thumb = item.snippet.thumbnails.high.url;
+                channelTitle = item.snippet.channelTitle;
+                videoDate = item.snippet.publishedAt;
+                Catagoryid = item.snippet.categoryId;
+                cID = item.snippet.channelId;
+                vidId = item.id;
+          output = "<p>" + videTitle + '<p><iframe width="800" height="400" src="http://www.youtube.com/embed/' + vidId + '" frameborder="0" allowfullscreen></iframe></p>';
+          $('#hVid').html(output);
+        })
+
+      }
+    );
+});
+
+   $("#random").on("click", function() {
+
+    var randomArray = ["duck", "cat", "bird", "computer", "Southern Methodist University", "web developer", "cow", "ostrich", "Dallas", "Texas", "fossil", "reptile", "engine", "mouse", "spongebob squarepants", "Student", "Happy", "Television", "Hawaii", "The United States", "Canada", "Mexico", "dog", "marsupial", "India", "meme"]
+    var randomNumber = Math.floor(Math.random() * randomArray.length);
+    var randomTerm = randomArray[randomNumber];
+    console.log(randomTerm);
+    database.ref().set({
+      searchTerm: randomTerm
+    });
+    window.open('pageTwo.html','_blank');
+            });
+
+
 
   </script>
 </body>
