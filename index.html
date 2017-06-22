@@ -2,39 +2,46 @@
 <html>
 
 <head>
-  <title>WIKIVIDEO</title>
-  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-  <link rel="stylesheet" type="text/css" href="assets/reset.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel='stylesheet' type='text/css' href='assets/style.css'>
+    <title>WIKIVIDEO</title>
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
-  <div class='container'>
-    <center><br>
-    <img width='260px' height='40px' src='assets/images/Wikivideo.png'>
-    <p>The Free Video Encyclopedia</p>
-    <br><br>
-    <div id='hVid'></div>
-    <form>
-      <br>
-      <input placeholder='Search' id='searchTerm' type='text' size='50' height='40'>
-      <button type='submit' id='searchButton' class='btn btn-primary'><span class='glyphicon glyphicon-search'></span></button>
-      <button id='random' type="button" class="btn btn-primary"><span class="glyphicon glyphicon-question-sign"></span></button>
-    </form>
-    <p id='userInputPrompt'></p>
-    </center>
-
-  </div> <!--container close-->
-
-  <script>
+    <div class='container'>
+        <center>
+            <br>
+            <img width='260px' height='40px' src='assets/images/Wikivideo.png'>
+            <p>
+                <font face="Times New Roman">The Free Video Encyclopedia!</font>
+            </p>
+            <br>
+            <br>
+            <div class="video-container" id='hVid'></div>
+            <form class="input-field">
+                <br>
+                <input placeholder='Search' id='searchTerm' type='text' size='50' height='40'>
+                <button type='submit' id='searchButton' class='btn btn-primary'><span class='glyphicon glyphicon-search'></span></button>
+                <button id='random' type="button" class="btn btn-primary"><span class="glyphicon glyphicon-question-sign"></span></button>
+            </form>
+            <p id='userInputPrompt'></p>
+        </center>
+    </div>
+    <!--container close-->
+    <script>
     var config = {
-      apiKey: "AIzaSyAJS4YQWU5DmESeYueG1qH1NGkjv3DncEY",
-      authDomain: "fir-click-counter-7cdb9.firebaseapp.com",
-      databaseURL: "https://wikivideo-90f6d.firebaseio.com/",
-      storageBucket: "fir-click-counter-7cdb9.appspot.com"
-      };
+        apiKey: "AIzaSyAJS4YQWU5DmESeYueG1qH1NGkjv3DncEY",
+        authDomain: "fir-click-counter-7cdb9.firebaseapp.com",
+        databaseURL: "https://wikivideo-90f6d.firebaseio.com/",
+        storageBucket: "fir-click-counter-7cdb9.appspot.com"
+    };
 
     firebase.initializeApp(config);
 
@@ -44,74 +51,71 @@
 
     $(document).on('submit', function(event) {
 
-      searchTerm = $('#searchTerm').val().trim();
-      
-      database.ref().set({
-      	searchTerm: searchTerm
-      });
+        searchTerm = $('#searchTerm').val().trim();
 
-      if ($('#searchTerm').val().trim()) {
-        window.open('pageTwo.html','_blank');
-      } else {
-        event.preventDefault();
-        $('#userInputPrompt').html('Enter a term to get started!')
-      }
-      
+        database.ref().set({
+            searchTerm: searchTerm
+        });
+
+        if ($('#searchTerm').val().trim()) {
+            window.open('pageTwo.html', '_blank');
+        } else {
+            event.preventDefault();
+            $('#userInputPrompt').html('Enter a term to get started!')
+        }
+
 
     });
 
     var maxVideos = 1;
-   $(document).ready(function(){
-  $.get(
-    "https://www.googleapis.com/youtube/v3/videos",{
-      part: 'snippet',
-      chart: 'mostPopular',
-      kind: 'youtube#videoListResponse',
-      maxResults: maxVideos,
-      regionCode: 'US',
-      type: "video",
-      videoEmbeddable: true,
-      videoSyndicated: true,
-      safeSearch: 'strict',
-      key: 'AIzaSyBkK8PEuhSfyz05gnUWhwOuE5cqWV5Oa3A'},
+    $(document).ready(function() {
+        $.get(
+            "https://www.googleapis.com/youtube/v3/videos", {
+                part: 'snippet',
+                chart: 'mostPopular',
+                kind: 'youtube#videoListResponse',
+                maxResults: maxVideos,
+                regionCode: 'US',
+                type: "video",
+                videoEmbeddable: true,
+                videoSyndicated: true,
+                safeSearch: 'strict',
+                key: 'AIzaSyBkK8PEuhSfyz05gnUWhwOuE5cqWV5Oa3A'
+            },
 
-      function(data){
-        console.log("data->" +JSON.stringify(data, null, 3));
-        var output;
-        $.each(data.items, function(i, item){
-          console.log(item);
-          videTitle = item.snippet.title;
-                description = item.snippet.description;
-                thumb = item.snippet.thumbnails.high.url;
-                channelTitle = item.snippet.channelTitle;
-                videoDate = item.snippet.publishedAt;
-                Catagoryid = item.snippet.categoryId;
-                cID = item.snippet.channelId;
-                vidId = item.id;
-          output = "<p>" + videTitle + '<p><iframe width="800" height="400" src="http://www.youtube.com/embed/' + vidId + '" frameborder="0" allowfullscreen></iframe></p>';
-          $('#hVid').html(output);
-        })
+            function(data) {
+                console.log("data->" + JSON.stringify(data, null, 3));
+                var output;
+                $.each(data.items, function(i, item) {
+                    console.log(item);
+                    videTitle = item.snippet.title;
+                    description = item.snippet.description;
+                    thumb = item.snippet.thumbnails.high.url;
+                    channelTitle = item.snippet.channelTitle;
+                    videoDate = item.snippet.publishedAt;
+                    Catagoryid = item.snippet.categoryId;
+                    cID = item.snippet.channelId;
+                    vidId = item.id;
+                    output = "<p>" + videTitle + '<p><iframe width="800" height="400" src="http://www.youtube.com/embed/' + vidId + '" frameborder="0" allowfullscreen></iframe></p>';
+                    $('#hVid').html(output);
+                })
 
-      }
-    );
-});
-
-   $("#random").on("click", function() {
-
-    var randomArray = ["duck", "cat", "bird", "computer", "Southern Methodist University", "web developer", "cow", "ostrich", "Dallas", "Texas", "fossil", "reptile", "engine", "mouse", "spongebob squarepants", "Student", "Happy", "Television", "Hawaii", "The United States", "Canada", "Mexico", "dog", "marsupial", "India", "meme"]
-    var randomNumber = Math.floor(Math.random() * randomArray.length);
-    var randomTerm = randomArray[randomNumber];
-    console.log(randomTerm);
-    database.ref().set({
-      searchTerm: randomTerm
+            }
+        );
     });
-    window.open('pageTwo.html','_blank');
-            });
 
+    $("#random").on("click", function() {
 
-
-  </script>
+        var randomArray = ["duck", "cat", "bird", "computer", "Southern Methodist University", "web developer", "cow", "ostrich", "Dallas", "Texas", "fossil", "reptile", "engine", "mouse", "spongebob squarepants", "Student", "Happy", "Television", "Hawaii", "The United States", "Canada", "Mexico", "dog", "kangaroo", "koala", "meme"]
+        var randomNumber = Math.floor(Math.random() * randomArray.length);
+        var randomTerm = randomArray[randomNumber];
+        console.log(randomTerm);
+        database.ref().set({
+            searchTerm: randomTerm
+        });
+        window.open('pageTwo.html', '_blank');
+    });
+    </script>
 </body>
 
 </html>
-
