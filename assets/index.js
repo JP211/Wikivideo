@@ -58,7 +58,7 @@
                 Catagoryid = item.snippet.categoryId;
                 cID = item.snippet.channelId;
                 vidId = item.id;
-          output = "<p>" + videTitle + '<p><iframe width="800" height="400" src="http://www.youtube.com/embed/' + vidId + '" frameborder="0" allowfullscreen></iframe></p>';
+          output = "<p>" + videTitle + '<p><iframe width="800" height="400" src="https://www.youtube.com/embed/' + vidId + '" frameborder="0" allowfullscreen></iframe></p>';
           $('#hVid').html(output);
         })
 

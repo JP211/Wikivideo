@@ -57,8 +57,8 @@
    
       // console.log(video.snippet.title);
       // console.log(video.snippet.thumbnails.high.url);
-      html = "<p>" + video.snippet.title + '<p><iframe width="800" height="400" src="http://www.youtube.com/embed/' + video.id.videoId + '" frameborder="0" allowfullscreen></iframe></p>';
-      altHtml.push("<p>" + video.snippet.title + '<p><iframe width="800" height="400" src="http://www.youtube.com/embed/' + video.id.videoId + '" frameborder="0" allowfullscreen></iframe></p>');
+      html = "<p>" + video.snippet.title + '<p><iframe width="800" height="400" src="https://www.youtube.com/embed/' + video.id.videoId + '" frameborder="0" allowfullscreen></iframe></p>';
+      altHtml.push("<p>" + video.snippet.title + '<p><iframe width="800" height="400" src="https://www.youtube.com/embed/' + video.id.videoId + '" frameborder="0" allowfullscreen></iframe></p>');
       sideHtml.push("<img id='sideVid" + index +"' height='60' width='120' src='" +  video.snippet.thumbnails.high.url + "'/><p id='sideVidTitle'>" + video.snippet.title + '</p>');
         //console.log(videos);
 
@@ -110,7 +110,7 @@
         // var url = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + searchTerm + "&format=json&callback=?";
         $.ajax({
         type: "GET",
-        url: "http://en.wikipedia.org/w/api.php?&redirects=main%20page&action=parse&format=json&prop=text&section=0&page=" + newSearchTerm + "&callback=?",
+        url: "https://en.wikipedia.org/w/api.php?&redirects=main%20page&action=parse&format=json&prop=text&section=0&page=" + newSearchTerm + "&callback=?",
         contentType: "application/json; charset=utf-8",
         async: false,
         dataType: "json",
