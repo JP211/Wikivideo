@@ -4,3 +4,5 @@ Wikivideo was created by a team of four developers in order to add video to arti
 ![](https://i.imgur.com/n4RWowa.png)
 
 ![](https://i.imgur.com/hAmfaS1.png)
+
+See the live demo: https://jkarnes5065.github.io/Wikivideo/index.html
